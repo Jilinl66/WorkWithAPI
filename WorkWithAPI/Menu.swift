@@ -34,7 +34,6 @@ struct Menu {
     let rate: Double
 }
 
-
 extension Menu: JSONDecodable {
     init(_ decoder: JSONDecoder) throws {
         id = try decoder.value(forKey: Keys.id)
@@ -43,7 +42,7 @@ extension Menu: JSONDecodable {
         description = try? decoder.value(forKey: Keys.description)
         imageUrlString = try decoder.value(forKey: Keys.imageUrlString)
         
-        date = try decoder.value(forKey: Keys.date)
+        date = try? decoder.value(forKey: Keys.date)
         
         imageTitle = try decoder.value(forKey: Keys.imageTitle)
         rate = try decoder.value(forKey: Keys.rate)

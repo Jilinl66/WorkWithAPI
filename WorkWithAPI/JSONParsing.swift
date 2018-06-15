@@ -19,7 +19,6 @@ enum JSONParsingError: Error {
 
 typealias JSONObject = [String: Any]
 
-
 class JSONDecoder {
     
     let jsonObject: JSONObject
@@ -35,6 +34,17 @@ class JSONDecoder {
             throw JSONParsingError.typeMisMatch(key: key)
         }
         return typedValue
+    }
+    
+    static let defaultDateFormat = "dd/MM/yyyy HH:mm:ss"
+    let dateFormatter = DateFormatter()
+    func value(forKey key: String, format: String = defaultDateFormat) throws -> Date {
+        dateFormatter.dateFormat = format
+        let dateValue: String = try value(forKey: key)
+        guard let dateObject = dateFormatter.date(from: dateValue) else {
+            throw JSONParsingError.missingKey(key: key)
+        }
+        return dateObject
     }
 }
 
