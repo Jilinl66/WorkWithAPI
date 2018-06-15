@@ -11,11 +11,30 @@ import Foundation
 protocol JSONDecodable {
     init(_ decoder: JSONDecoder) throws
 }
+
+enum JSONParsingError: Error {
+    case missingKey(key: String)
+    case typeMisMatch(key: String)
+}
+
 typealias JSONObject = [String: Any]
+
+
 class JSONDecoder {
+    
     let jsonObject: JSONObject
     init(_ jsonObject: JSONObject) {
         self.jsonObject = jsonObject
+    }
+    
+    func value<T>(forKey key: String) throws -> T {
+        guard let value = jsonObject[key] else {
+            throw JSONParsingError.missingKey(key: key)
+        }
+        guard let typedValue = value as? T else {
+            throw JSONParsingError.typeMisMatch(key: key)
+        }
+        return typedValue
     }
 }
 
