@@ -64,6 +64,11 @@ func deserialize(_ data: Data) throws -> [JSONObject] {
     return objects
 }
 
+/// decode
+///
+/// - parameter data: The data to deserialize.
+/// - returns: A collection of json objects.
+/// - throws: An error if any value throws an error during deserializing.
 func decode<T>(_ jsonObject: JSONObject) throws -> T where T: JSONDecodable {
     return try T.init(JSONDecoder(jsonObject))
 }
